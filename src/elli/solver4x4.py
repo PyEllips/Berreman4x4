@@ -322,9 +322,12 @@ class Solver4x4(Solver):
         return sqrt(k_z2)
 
     def __init__(
-        self, experiment: "Experiment", propagator: Propagator = PropagatorExpm()
+        self,
+        experiment: "Experiment",
+        propagator: Propagator = PropagatorExpm(),
+        save_experiment: bool = False,
     ) -> None:
-        super().__init__(experiment)
+        super().__init__(experiment, save_experiment)
         self.propagator = propagator
 
     def calculate(self) -> Result:

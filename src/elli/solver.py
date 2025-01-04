@@ -26,8 +26,11 @@ class Solver(ABC):
     def calculate(self) -> Result:
         pass
 
-    def __init__(self, experiment: "Experiment") -> None:
-        self.experiment = deepcopy(experiment)
+    def __init__(self, experiment: "Experiment", save_experiment: bool = False) -> None:
+        if save_experiment:
+            self.experiment = deepcopy(experiment)
+        else:
+            self.experiment = experiment
         self.structure = self.experiment.structure
         self.lbda = self.experiment.lbda
         self.theta_i = self.experiment.theta_i

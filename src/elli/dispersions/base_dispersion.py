@@ -8,6 +8,7 @@ from typing import List, Optional, Union
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
+from lmfit import Parameter
 from numpy.lib.scimath import sqrt
 
 from .. import dispersions
@@ -56,6 +57,8 @@ class BaseDispersion(ABC):
 
         for i, val in enumerate(args):
             key = list(template.keys())[i]
+            if isinstance(val, Parameter):
+                val = val.value
             params[key] = val
             pos_arguments.add(key)
 
@@ -64,6 +67,8 @@ class BaseDispersion(ABC):
                 raise InvalidParameters(
                     f"Parameter {key} already set by positional argument"
                 )
+            if isinstance(value, Parameter):
+                value = value.value
             params[key] = value
 
         return params
@@ -79,6 +84,17 @@ class BaseDispersion(ABC):
         for param in self.single_params:
             if self.single_params[param] is None:
                 raise InvalidParameters(f"Please specify parameter {param}")
+
+        self.last_lbda = None
+        self.hash_single_params = None
+        self.hash_rep_params = None
+
+    def _hash_params(self, params: Union[dict, List[dict]]) -> int:
+        """Creates an single_params_dict or the repeating_params_list."""
+        if isinstance(params, list):
+            return hash(tuple([self._hash_params(dictionary) for dictionary in params]))
+        else:
+            return hash(tuple([item for _, item in params.items()]))
 
     @abstractmethod
     def dielectric_function(self, lbda: npt.ArrayLike) -> npt.NDArray:
@@ -114,6 +130,40 @@ class BaseDispersion(ABC):
         """Returns the dielectric constant for wavelength 'lbda' default unit (nm)
         in the convention ε1 + iε2."""
         lbda = self.default_lbda_range if lbda is None else lbda
+
+        from .table_epsilon import TableEpsilon
+        from .table_index import Table
+        from .pseudo_dielectric import PseudoDielectricFunction
+
+        if not isinstance(self, (DispersionSum, IndexDispersionSum)):
+            if isinstance(self, (TableEpsilon, Table, PseudoDielectricFunction)):
+                if self.last_lbda is lbda:
+                    return self.cached_diel
+                else:
+                    self.last_lbda = lbda
+                    self.cached_diel = np.asarray(
+                        self.dielectric_function(lbda), dtype=np.complex128
+                    )
+                    return self.cached_diel
+            else:
+                new_single_hash = self._hash_params(self.single_params)
+                new_rep_hash = self._hash_params(self.rep_params)
+
+                if (
+                    self.last_lbda is lbda
+                    and self.hash_single_params == new_single_hash
+                    and self.hash_rep_params == new_rep_hash
+                ):
+                    return self.cached_diel
+                else:
+                    self.last_lbda = lbda
+                    self.hash_single_params = new_single_hash
+                    self.hash_rep_params = new_rep_hash
+                    self.cached_diel = np.asarray(
+                        self.dielectric_function(lbda), dtype=np.complex128
+                    )
+                    return self.cached_diel
+
         return np.asarray(self.dielectric_function(lbda), dtype=np.complex128)
 
     def get_refractive_index(self, lbda: Optional[npt.ArrayLike] = None) -> npt.NDArray:

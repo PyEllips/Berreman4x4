@@ -252,8 +252,9 @@ class FitRho(FitDecorator):
         """
         result = self.model(lbda, params)
 
-        resid_rhor = rhor - result.rho.real
-        resid_rhoi = rhoi - result.rho.imag
+        sim_rho = result.rho
+        resid_rhor = rhor - sim_rho.real
+        resid_rhoi = rhoi - sim_rho.imag
 
         return np.concatenate((resid_rhor, resid_rhoi))
 
@@ -268,11 +269,10 @@ class FitRho(FitDecorator):
         Returns:
             Result: The fitting result
         """
-        rho = calc_rho(self.exp_data)
         res = minimize(
             self.fit_function,
             self.params,
-            args=(rho.index.to_numpy(), rho.values.real, rho.values.imag),
+            args=(self.lbda, self.rhor, self.rhoi),
             method=method,
         )
 
@@ -390,7 +390,13 @@ class FitRho(FitDecorator):
         """
         super().__init__()
         self.model = model
+
         self.exp_data = exp_data
+        tmp_rho = calc_rho(self.exp_data)
+        self.lbda = tmp_rho.index.to_numpy()
+        self.rhor = tmp_rho.values.real
+        self.rhoi = tmp_rho.values.imag
+
         self.params = params
         self.fitted_params = params.copy()
         self.angle = angle
