@@ -115,6 +115,48 @@ class Result:
         return -np.angle(self.rho, deg=True)
 
     @property
+    def N(self) -> npt.NDArray:
+        r"""
+        N element of the NCS parameter set.
+        The NCS values are essentially the non-zero mueller matrix elements for isotropic samples.
+        Synonym: Ic'.
+
+        It is calculated directly from psi/delta:
+
+        .. math::
+            N = \cos (2 \Psi )
+        """
+        return np.cos(2 * np.deg2rad(self.psi))
+
+    @property
+    def C(self) -> npt.NDArray:
+        r"""
+        C element of the NCS parameter set.
+        The NCS values are essentially the non-zero mueller matrix elements for isotropic samples.
+        Synonym: Ic
+
+        It is calculated directly from psi/delta:
+
+        .. math::
+            C = \sin (2 \Psi ) \cdot \cos \Delta
+        """
+        return np.sin(2 * np.deg2rad(self.psi)) * np.cos(np.deg2rad(self.delta))
+
+    @property
+    def S(self) -> npt.NDArray:
+        r"""
+        S element of the NCS parameter set.
+        The NCS values are essentially the non-zero mueller matrix elements for isotropic samples.
+        Synonym: Is
+
+        It is calculated directly from psi/delta:
+
+        .. math::
+            S = \sin (2 \Psi ) \cdot \sin \Delta
+        """
+        return np.sin(2 * np.deg2rad(self.psi)) * np.sin(np.deg2rad(self.delta))
+
+    @property
     def delta_t(self) -> npt.NDArray:
         r"""Returns the ellipsometric angle :math:`\Delta_\text{t}` in transmission direction.
 
