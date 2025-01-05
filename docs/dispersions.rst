@@ -48,17 +48,15 @@ more than two dispersions together you may have a look at the `DispersionSum`_ c
 PyElli also provides tabulated dispersions from the Refractiveindex.info database.
 They can be accessed with the :class:`RII<elli.database.RII>` class.
 
+Refractive Index Dispersions
+============================
 
 Constant Refractive Index
-=========================
+-------------------------
 .. autoclass:: elli.dispersions.ConstantRefractiveIndex
 
-Epsilon Infinity
-================
-.. autoclass:: elli.dispersions.EpsilonInf
-
 Cauchy
-======
+------
 .. autoclass:: elli.dispersions.Cauchy
 
 .. plotly::
@@ -80,8 +78,15 @@ Cauchy
 
 .. autoclass:: elli.dispersions.CauchyCustomExponent
 
+Dielectric Function Dispersions
+===============================
+
+Epsilon Infinity
+----------------
+.. autoclass:: elli.dispersions.EpsilonInf
+
 Sellmeier
-=========
+---------
 .. autoclass:: elli.dispersions.Sellmeier
 
 .. plotly::
@@ -95,10 +100,10 @@ Sellmeier
 .. autoclass:: elli.dispersions.SellmeierCustomExponent
 
 Drude
-=====
+-----
 
 Energy parameters
------------------
+~~~~~~~~~~~~~~~~~
 .. autoclass:: elli.dispersions.DrudeEnergy
 
 .. plotly::
@@ -109,7 +114,7 @@ Energy parameters
    fig.update_layout(title="Drude dispersion with A=10 and gamma=0.1")
 
 Resistivity parameters
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 .. autoclass:: elli.dispersions.DrudeResistivity
 
 .. plotly::
@@ -120,10 +125,10 @@ Resistivity parameters
    fig.update_layout(title="Drude dispersion with rho_opt=tau=1e-8")
 
 Lorentz
-=======
+-------
 
 Wavelength parameters
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 .. autoclass:: elli.dispersions.LorentzLambda
 
 .. plotly::
@@ -135,7 +140,7 @@ Wavelength parameters
 
 
 Energy parameters
------------------
+~~~~~~~~~~~~~~~~~
 .. autoclass:: elli.dispersions.LorentzEnergy
 
 .. plotly::
@@ -146,7 +151,7 @@ Energy parameters
    fig.update_layout(title="Lorentz dispersion with A=1, E=2 and gamma=0.2")
 
 Tauc-Lorentz
-============
+------------
 .. autoclass:: elli.dispersions.TaucLorentz
 
 .. plotly::
@@ -157,7 +162,7 @@ Tauc-Lorentz
    fig.update_layout(title="Tauc-Lorentz dispersion with Eg=2 and A=20, E=2.2 and C=1")
 
 Cody-Lorentz
-============
+------------
 .. autoclass:: elli.dispersions.CodyLorentz
 
 .. plotly::
@@ -169,7 +174,7 @@ Cody-Lorentz
 
 
 Gaussian
-========
+--------
 .. autoclass:: elli.dispersions.Gaussian
 
 .. plotly::
@@ -180,7 +185,7 @@ Gaussian
    fig.update_layout(title="Gaussian dispersion with A=1, E=2 and sigma=0.2")
 
 Tanguy
-======
+------
 .. autoclass:: elli.dispersions.Tanguy
 
 .. plotly::
@@ -191,7 +196,7 @@ Tanguy
    fig.update_layout(title="Tanguy dispersion with Eg=2.5 and default values")
 
 Poles
-=====
+-----
 .. autoclass:: elli.dispersions.Poles
 
 .. plotly::
@@ -203,7 +208,7 @@ Poles
    fig.update_layout(title="Poles dispersion with A_ir=10, A_uv=100, E_uv=8")
 
 Polynomial
-==========
+----------
 .. autoclass:: elli.dispersions.Polynomial
 
 .. plotly::
@@ -215,7 +220,7 @@ Polynomial
    fig.update_layout(title="Polynomial dispersion with e0=2.5, f_1=500, e_1=-2")
 
 Tabulated values
-=================
+================
 
 Refractive index values
 -----------------------

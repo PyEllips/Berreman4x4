@@ -22,9 +22,8 @@ class Cauchy(IndexDispersion):
 
     Output:
         .. math::
-            \varepsilon^{1/2}(\lambda) =
-            \boldsymbol{n_0} + 100  \boldsymbol{n_1}/\lambda^2 +
-            10^7 \boldsymbol{n_2}/\lambda^4
+            \varepsilon^{1/2}(\lambda) = n(\lambda) =
+            \boldsymbol{n_0} + 100  \boldsymbol{n_1}/\lambda^2 + 10^7 \boldsymbol{n_2}/\lambda^4
             + i (\boldsymbol{k_0} + 100 \boldsymbol{k_1}/\lambda^2
             + 10^7 \boldsymbol{k_2}/\lambda^4)
     """

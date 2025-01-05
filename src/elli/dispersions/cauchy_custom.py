@@ -18,7 +18,7 @@ class CauchyCustomExponent(IndexDispersion):
 
     Output:
         .. math::
-            \varepsilon^{1/2}(\lambda) =
+            n(\lambda) =
             \boldsymbol{n_0} + \sum_j \boldsymbol{f}_j \cdot \lambda^{\boldsymbol{e}_j}
     """
 
